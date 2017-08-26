@@ -8,6 +8,8 @@
 
 #include <netinet/in.h>
 
+#include <arpa/inet.h>
+
 int main() {
 
   // Create network socket and buffer
@@ -17,7 +19,7 @@ int main() {
   struct sockaddr_in server_address;
   server_address.sin_family = AF_INET;
   server_address.sin_port = htons(8000);
-  server_address.sin_addr.s_addr = INADDR_ANY;
+  server_address.sin_addr.s_addr = inet_addr("192.168.0.105");
 
   // Bind socket to port and IP address
   bind(server_socket_id, (struct sockaddr*) &server_address, sizeof(server_address));
@@ -25,11 +27,10 @@ int main() {
   listen(server_socket_id, 5);
 
   while(1) {
-    char incoming_message[256] = "";
+    char incoming_message[256];
     int client_socket_id = accept(server_socket_id, NULL, NULL);
     recv(client_socket_id, &incoming_message, sizeof(incoming_message), 0);
-    printf("Recieved: ");
-    printf("%s", incoming_message);
+    printf("Recieved: %s", incoming_message);
     close(client_socket_id);
   }
 

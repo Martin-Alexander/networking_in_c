@@ -8,6 +8,8 @@
 
 #include <netinet/in.h>
 
+#include <arpa/inet.h>
+
 int main() {
   while(1) {
 
@@ -18,7 +20,7 @@ int main() {
     struct sockaddr_in server_address;
     server_address.sin_family = AF_INET;
     server_address.sin_port = htons(8000);
-    server_address.sin_addr.s_addr = INADDR_ANY;
+    server_address.sin_addr.s_addr = inet_addr("192.168.0.105");
 
     int connection_status = connect(network_socket_id, (struct sockaddr*) &server_address, sizeof(server_address));
     // Check for connection error
